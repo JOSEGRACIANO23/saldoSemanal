@@ -1,0 +1,270 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Calculadora con Porcentaje Personalizado</title>
+    <style>
+        /* Estilos aquí... */
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f5f5dc; /* Fondo color beige */
+            margin: 20px;
+            transition: background-color 0.5s ease; /* Transición de color de fondo */
+            animation: fadeIn 1s ease-out; /* Animación de entrada al cargar la página */
+            overflow-y: auto; /* Evitar que el patrón de fondo se desplace fuera del área visible */
+            background-image: url('https://www.transparenttextures.com/patterns/grey-pattern.png'); /* Patrón de fondo */
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+            }
+            to {
+                opacity: 1;
+            }
+        }
+
+        label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+            color: #333; /* Color del texto más oscuro */
+        }
+
+        input {
+            width: 100%;
+            padding: 8px;
+            margin-bottom: 15px;
+            box-sizing: border-box;
+        }
+
+        button {
+            background-color: #cbffd3dc; /* Color pastel rosa */
+            color: #333; /* Texto oscuro para contraste */
+            padding: 10px;
+            border: none;
+            cursor: pointer;
+            transition: background-color 0.3s ease, transform 0.2s ease; /* Transiciones de color de fondo y escala */
+            width: 48%; /* Reducir el ancho para dejar espacio para el segundo botón */
+            border-radius: 20px; /* Redondear los bordes */
+        }
+
+        button:hover {
+            background-color: #00ff7b; /* Color pastel amarillo al pasar el mouse */
+        }
+
+        button:active {
+            background-color: #b6ffc6; /* Color pastel rosa claro al presionar el botón */
+            transform: scale(0.95); /* Efecto de escala al presionar el botón */
+        }
+
+        button:disabled {
+            background-color: #cccccc; /* Color gris para botones deshabilitados */
+            cursor: not-allowed; /* Cursor no permitido para indicar que está deshabilitado */
+        }
+
+        #limpiarDatos {
+            background-color: #e6adad; /* Color pastel azul claro */
+            color: #333; /* Texto oscuro para contraste */
+            width: 48%; /* Ancho igual al botón principal */
+            border-radius: 20px; /* Redondear los bordes */
+        }
+
+        #limpiarDatos:hover {
+            background-color: #fb9898; /* Color pastel verde al pasar el mouse */
+        }
+
+        #limpiarDatos:active {
+            background-color: #eb87a2; /* Color pastel azul al presionar el botón */
+        }
+
+        #resultado {
+            font-size: 18px;
+            font-weight: bold;
+            margin-top: 10px;
+            color: #333; /* Color del texto más oscuro */
+        }
+
+        #mensaje {
+            margin-top: 10px;
+            font-size: 16px;
+            font-style: italic;
+            color: #555; /* Color del texto más claro */
+        }
+
+        #calculadora {
+            display: block;
+        }
+
+        .menu-item {
+      background-color: #3498db;
+      color: #fff;
+      padding: 10px;
+      cursor: pointer;
+      transition: background-color 0.3s;
+    }
+
+    .menu-item:hover {
+      background-color: #2980b9;
+    }
+
+    .menu-content {
+      display: none;
+      padding: 10px;
+      background-color: #fff;
+      border: 1px solid #ddd;
+      margin-top: 5px;
+    }
+    img {
+      padding: 15px;
+      max-width: 60%;
+      height: auto;
+      display: block;
+      margin: auto;
+    }
+    </style>
+</head>
+<body>
+    <label for="porcentajeApp">¿Qué porcentaje aparece en tu app?</label>
+    <input type="text" id="porcentajeApp" placeholder="">
+
+    <label for="ingresosEfectivo">Ingresos en Efectivo:</label>
+    <input type="text" id="calculadoraIngresosEfectivo">
+
+    <label for="ingresosTarjeta">Ingresos en Tarjeta:</label>
+    <input type="text" id="calculadoraIngresosTarjeta">
+
+    <label for="descuentosBolt">Descuentos compensados por Bolt:</label>
+    <input type="text" id="calculadoraDescuentosBolt">
+
+    <button onclick="calcularOperacion()">Calcular</button>
+    <button id="limpiarDatos" onclick="limpiarDatos()">Limpiar Datos</button>
+
+    <label for="resultado">Resultado:</label>
+    <span id="calculadoraResultado"></span>
+
+    <div id="calculadoraMensaje"></div>
+
+    <div class="menu-item" onclick="toggleMenu('info1')">¿Donde estan los datos que me pide la calculadora?</div>
+<div class="menu-content" id="info1">
+  <p>
+
+Paso 1: Dirígete al menú <strong>Ingresos</strong> ubicado en la pantalla principal de <strong>Bolt Driver.</strong>
+<br>
+
+<img src="https://i.ibb.co/df5B7HR/paso1.png">
+
+
+Paso 2: En la pantalla de <strong>Ingresos</strong>, selecciona la sección de <strong>'Mostrar desglose'</strong>.<br>
+
+<img src="https://i.ibb.co/9GgVtH6/paso2.png">
+
+Paso 3: Una vez hayas elegido la <strong>semana que has COMPLETADO</strong>, visualizarás los siguientes datos que <strong>ingresaras a la calculadora</strong>.<br>
+
+<img src="https://i.ibb.co/QbThpJy/final.png">
+
+<ol>
+  <li>Semana completada (Lunes a Domingo)</li>
+  <li>Ingresos en tarjeta</li>
+  <li>Ingresos en efectivo</li>
+  <li>Descuentos compensados por Bolt</li>
+  <li>Porcentaje de App</li>
+</ol>
+
+</p>
+</div>
+
+<div class="menu-item" onclick="toggleMenu('info2')">¿Porque se calcula asi mi comision?</div>
+<div class="menu-content" id="info2">
+  <p>La aplicación de Bolt Driver aplica un descuento equivalente al porcentaje indicado en tu aplicación a tus ingresos brutos, mostrándote así un ingreso neto. Para calcular tus ingresos brutos, simplemente realiza un cálculo de regla de tres simple.
+  </p>
+  
+  <img src="https://i.ibb.co/4fVr5nW/neto.png">
+
+  <p>
+Posteriormente, ten en cuenta las comisiones correspondientes, que son 20% para pagos con tarjeta y al 15% para pagos en efectivo.</p>
+</div>
+
+<div class="menu-item" onclick="toggleMenu('info3')">¿Como puedo comprobar mi comision?
+</div>
+<div class="menu-content" id="info3">
+  <p>Si tienes dudas acerca de la comisión cobrada por Bolt, puedes verificarla manualmente realizando los siguientes pasos en la sección de viajes:
+</p>
+  <img src="https://i.ibb.co/4NYQX2F/viajes1.png">
+  <p>Suma los viajes en efectivo y por separado suma los viajes con tarjeta. Puedes identificarlos por los iconos de tarjeta y moneda que los acompañan.
+</p>
+  <img src="https://i.ibb.co/HdhWYW1/tarjetaefect.png">
+    <p>Las comisiones que debes aplicar son del 20% para pagos con tarjeta y del 15% para pagos en efectivo.
+</p>
+<p><center><strong>COMISIÓN TOTAL = (SUMA DE TARJETAS x 20%) + (SUMA DE EFECTIVO x %15)</strong></center></p>
+
+    <p>Resta el total SUMA DE TARJETAS a tu COMISIÓN TOTAL.</p>
+    
+    <p><center><strong>SALDO = COMISIÓN TOTAL - SUMA DE TARJETAS</strong></center></p>
+    <p>Si el resultado es negativo, significa que tienes un saldo a favor; si es positivo, indica un saldo en contra.</p>
+    
+   <P> Esta verificación manual te permitirá confirmar y comprender la precisión de las transacciones y las comisiones aplicadas por la plataforma.</P>
+
+
+
+</div>
+
+<div class="menu-item" onclick="toggleMenu('info4')">¿Porque me aparece un porcentaje diferente en mi aplicacion?
+</div>
+<div class="menu-content" id="info4">
+  <p>El porcentaje que se muestra en tu aplicación es asignado por la propia aplicación y no afecta tu saldo final. </p>
+  
+ <p> Todos los conductores pagan la misma comisión, que es del 15% para los pagos en efectivo y del 20% para los pagos con tarjeta. Este porcentaje fijo se aplica uniformemente a todos los conductores, independientemente de las variaciones que puedan aparecer en la aplicación.</p>
+
+</div>
+
+    <script>
+        function calcularOperacion() {
+            var porcentaje = parseFloat(document.getElementById('porcentajeApp').value) || 0;
+            var ingresosEfectivo = parseFloat(document.getElementById('calculadoraIngresosEfectivo').value) || 0;
+            var ingresosTarjeta = parseFloat(document.getElementById('calculadoraIngresosTarjeta').value) || 0;
+            var descuentosBolt = parseFloat(document.getElementById('calculadoraDescuentosBolt').value) || 0;
+
+            var resultado = (ingresosEfectivo * 100 / -(porcentaje-100) * 0.15) + (ingresosTarjeta * 100 / -(porcentaje-100) * 0.20) - (ingresosTarjeta * 100 / -(porcentaje-100)) - descuentosBolt;
+
+            document.getElementById('calculadoraResultado').textContent = resultado.toFixed(2);
+
+            mostrarMensaje(resultado);
+        }
+
+        function mostrarMensaje(resultado) {
+            var mensajeDiv = document.getElementById('calculadoraMensaje');
+            mensajeDiv.innerHTML = "";
+
+            if (resultado > 40) {
+                mensajeDiv.innerHTML = "Tienes adeudo, pasa a pagar lunes 1pm a 5pm o martes 9am a 3pm";
+            } else if (resultado >= 0 && resultado <= 40) {
+                mensajeDiv.innerHTML = "Detectamos que tienes un adeudo menor a 40 pesos, tu adeudo se acumulará para la siguiente semana, no es necesario pasar a oficina";
+            } else {
+                mensajeDiv.innerHTML = "Tienes saldo a favor, puedes pasar de miércoles a viernes de 10am a 1pm a recoger tu dinero";
+            }
+        }
+
+        function limpiarDatos() {
+            document.getElementById('porcentajeApp').value = "";
+            document.getElementById('calculadoraIngresosEfectivo').value = "";
+            document.getElementById('calculadoraIngresosTarjeta').value = "";
+            document.getElementById('calculadoraDescuentosBolt').value = "";
+            document.getElementById('calculadoraResultado').textContent = "";
+            document.getElementById('calculadoraMensaje').textContent = "";
+        }
+
+        function toggleMenu(menuId) {
+    var menuContent = document.getElementById(menuId);
+
+    if (menuContent.style.display === "block") {
+      menuContent.style.display = "none";
+    } else {
+      menuContent.style.display = "block";
+    }
+  }
+
+    </script>
+</body>
+</html>
